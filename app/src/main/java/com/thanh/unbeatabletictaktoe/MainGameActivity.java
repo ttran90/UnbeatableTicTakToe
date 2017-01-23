@@ -1,5 +1,6 @@
 package com.thanh.unbeatabletictaktoe;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,10 +18,10 @@ public class MainGameActivity extends AppCompatActivity implements View.OnClickL
     int[] colors = {Color.RED, Color.BLUE};
     int count = 0;
     int currentColor;
-    Player player1 = new Player("Player1");
-    Player player2 = new Player("Player2");
-    Player[] players = {player1, player2};
-    Game game = new Game(player1, player2);
+    Player player1;// = new Player(getIntent().getStringExtra("player1"));
+    Player player2;// = new Player(getIntent().getStringExtra("player2"));
+    Player[] players = new Player[2];//{player1, player2};
+    Game game; //= new Game(player1, player2);
     boolean isOver = false;
     ArrayList<Integer> moves = new ArrayList<Integer>();
 
@@ -30,9 +31,15 @@ public class MainGameActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_game);
 
+        player1 = new Player(getIntent().getStringExtra("player1"));
+        player2 = new Player(getIntent().getStringExtra("player2"));
+        players[0] = player1;
+        players[1] = player2;
+        game = new Game(player1, player2);
+
+
         TextView textView = (TextView) findViewById(R.id.playerTurn);
         textView.setText(players[count % 2].getName() + "'s turn");
-
 
         final Button b1 = (Button) findViewById(R.id.button);
         final Button b2 = (Button) findViewById(R.id.button2);
