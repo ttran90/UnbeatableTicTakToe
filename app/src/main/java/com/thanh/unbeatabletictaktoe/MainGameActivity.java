@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class MainGameActivity extends AppCompatActivity implements View.OnClickListener{
 
     int[] colors = {Color.RED, Color.BLUE};
@@ -20,6 +22,7 @@ public class MainGameActivity extends AppCompatActivity implements View.OnClickL
     Player[] players = {player1, player2};
     Game game = new Game(player1, player2);
     boolean isOver = false;
+    ArrayList<Integer> moves = new ArrayList<Integer>();
 
 
     @Override
@@ -27,7 +30,7 @@ public class MainGameActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_game);
 
-        TextView textView = (TextView) findViewById(R.id.textBox);
+        TextView textView = (TextView) findViewById(R.id.playerTurn);
         textView.setText(players[count % 2].getName() + "'s turn");
 
 
@@ -109,14 +112,21 @@ public class MainGameActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void buttonClicked(Button button, int move) {
-        TextView textView = (TextView)findViewById(R.id.textBox);
-        currentColor = colors[count % 2];
-        button.setBackgroundColor(currentColor);
-        isOver = game.play(players[count % 2], move);
-        count++;
-        textView.setText(players[count % 2].getName() + "'s turn");
-        if(isOver){
-            textView.setText(players[(count - 1) % 2].getName().toUpperCase() + " WON!!!!!");
+        if(moves.contains(move)){
+            Toast.makeText(this,"Invalid Move", Toast.LENGTH_LONG).show();
+        }
+        else {
+            moves.add(move);
+            TextView textView = (TextView) findViewById(R.id.playerTurn);
+            currentColor = colors[count % 2];
+            button.setBackgroundColor(currentColor);
+            isOver = game.play(players[count % 2], move);
+            count++;
+            textView.setText(players[count % 2].getName() + "'s turn");
+            if (isOver) {
+                textView.setText(players[(count - 1) % 2].getName().toUpperCase() + " WON!!!!!");
+                textView.setTextSize(40);
+            }
         }
     }
 }
