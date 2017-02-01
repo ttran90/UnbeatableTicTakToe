@@ -20,7 +20,7 @@ public class Game {
         this.player1 = player1;
         this.player2 = player2;
         this.playCount = 0;
-        this.board = new String[boardSize][boardSize];
+        this.board = new String[][]{{"!", "@", "#"}, {"$", "%", "^"}, {"&", "*", "("}};
         this.currentPlayer = null;
         initMoveMap();
     }
@@ -52,13 +52,22 @@ public class Game {
     }
 
     private boolean isGameOver(int row, int col) {
-        if(board[col][row].equals(board[(col + 1) % boardSize][row]) && board[col][row].equals(board[(col + 2) % boardSize][row])){
+        if(board[0][0].equals(board[1][1]) && board[0][0].equals(board[2][2])){
             return true;
         }
-        if(board[col][row].equals(board[col][(row + 1) % boardSize]) && board[col][row].equals(board[col][(row + 2) % boardSize])) {
+        if(board[0][2].equals(board[1][1]) && board[0][2].equals(board[2][0])){
             return true;
         }
-        if(board[col][row].equals(board[(col + 1) % boardSize][(row + 1) % boardSize]) && board[col][row].equals(board[(col + 2) % boardSize][(row + 2) % boardSize])) {
+        if(board[0][0].equals(board[0][1]) && board[0][0].equals(board[0][2])){
+            return true;
+        }
+        if(board[0][0].equals(board[1][0]) && board[0][0].equals(board[2][0])){
+            return true;
+        }
+        if(board[2][2].equals(board[2][1]) && board[2][2].equals(board[2][0])){
+            return true;
+        }
+        if(board[2][2].equals(board[1][2]) && board[2][2].equals(board[0][2])){
             return true;
         }
         return false;
